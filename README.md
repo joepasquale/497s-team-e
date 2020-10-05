@@ -1,5 +1,5 @@
 # 497s-team-e: LinkUp
-GitHub repository for Team E's Scalable Web Systems Project
+GitHub repository for Team E's Scalable Web Systems Project. Github will be used as the Workflow measure and controller for this project.
 
 # a) Routing:
 For this repo we are using Nginx in order to control routing between front-end and back-end. This is the industry standard and proper routing is essential for scalability. 
