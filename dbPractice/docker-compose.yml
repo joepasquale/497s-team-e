@@ -1,0 +1,26 @@
+version: '3.8'
+services:
+    flask_app:
+        build: ./flaskapp
+        ports:
+            - "5000:5000"
+        environment: 
+            - ENV=development
+            - PORT=5000
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_USER=uplink
+            - POSTGRES_DB=uplink_dev # development database (should be changed in production)
+            - POSTGRES_URL=postgres:5432 # access within the same container does not require passoword
+    postgres:
+        build: ./postgres
+        ports:
+            - "5432:5432"
+        environment: 
+            - POSTGRES_PASSWORD=password
+            - POSTGRES_USER=uplink
+            - POSTGRES_DB=uplink_dev # development database (should be changed in production)
+        
+        #uncomment the following to allow safe after restart
+        volumes:
+           - ./database-data:/var/lib/postgres/data 
+            
