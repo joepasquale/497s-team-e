@@ -1,5 +1,10 @@
 # Import modules
 from app import app
+import sys
+
+print(sys.path)
+
+from flask_cors import CORS
 import requests
 from flask import Flask, request, jsonify
 
@@ -8,9 +13,11 @@ API_KEY = '9DtY40amt8NwFuCTtVPweR9w10EJ2XYXi47mTBC4fXeIR2wBvJkLFKi5n20PO-OdgcGXo
 ENDPOINT = 'https://api.yelp.com/v3/businesses/search'
 HEADERS = {'Authorization': 'bearer %s' % API_KEY}
 
+CORS(app)
+
 @app.route("/")
 def index():
-    return "Hello from Flask"
+    return "This is a test"
 
 @app.route("/yelp")
 def yelp_resp():
