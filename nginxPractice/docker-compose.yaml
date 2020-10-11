@@ -7,9 +7,9 @@ services:
         # Naming a container gives it that hostname as well. So hostname for this container is "flask"
         container_name: flask
         restart: always
-        environment: 
+        environment:
             - APP_NAME=MyFlaskApp
-        expose: 
+        expose:
             - 8080
 
     nginx:
@@ -18,3 +18,15 @@ services:
         restart: always
         ports:
             - "80:80"
+
+    ui:
+        build: ./linkup-ui
+        container_name: ui
+        ports:
+            - "3000:3000"
+        restart: unless-stopped
+        environment:
+            CHOKIDAR_USEPOLLING: "true"
+        volumes:
+            - ./linkup-ui/node_modules:/usr/app/node_modules
+            - ./linkup-ui:/usr/app
