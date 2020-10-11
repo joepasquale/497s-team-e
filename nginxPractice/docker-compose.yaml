@@ -12,6 +12,28 @@ services:
         expose: 
             - 8080
 
+    groups:
+        build: ./groups
+        # Naming a container gives it that hostname as well. So hostname for this container is "flask"
+        container_name: groups
+        restart: always
+        # environment: 
+        #     - APP_NAME=MyFlaskApp
+        expose: 
+            #not sure about this, could be 8080, or dupes not allowed?
+            - 8181
+
+    mongodb:
+        build: ./mongodb
+        container_name: mongo
+        # HOST_PORT:CONTAINER_PORT
+        ports:
+            - "27017:27017"
+        # environment: 
+        #     - MONGO_INITDB_DATABASE=
+        #     - MONGO_INITDB_ROOT_USERNAME=
+        #     - MONGO_INITDB_PASSWORD=
+
     nginx:
         build: ./nginx
         container_name: nginx
