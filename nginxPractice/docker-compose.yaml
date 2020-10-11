@@ -17,9 +17,9 @@ services:
         # Naming a container gives it that hostname as well. So hostname for this container is "flask"
         container_name: groups
         restart: always
-        # environment: 
+        # environment:
         #     - APP_NAME=MyFlaskApp
-        expose: 
+        expose:
             #not sure about this, could be 8080, or dupes not allowed?
             - 8181
 
@@ -29,7 +29,7 @@ services:
         # HOST_PORT:CONTAINER_PORT
         ports:
             - "27017:27017"
-        # environment: 
+        # environment:
         #     - MONGO_INITDB_DATABASE=
         #     - MONGO_INITDB_ROOT_USERNAME=
         #     - MONGO_INITDB_PASSWORD=
@@ -46,9 +46,11 @@ services:
         container_name: ui
         ports:
             - "3000:3000"
-        restart: unless-stopped
+        restart: always
         environment:
             CHOKIDAR_USEPOLLING: "true"
         volumes:
             - ./linkup-ui/node_modules:/usr/app/node_modules
             - ./linkup-ui:/usr/app
+        expose:
+            - 3000
