@@ -19,11 +19,12 @@ CORS(app)
 def index():
     return "This is a test"
 
-@app.route("/yelp")
-def yelp_resp():
+@app.route('/yelp', methods=['POST'])
 
-    terms = request.args.get('terms')
-    location = request.args.get('location')
+def yelp_resp():
+    req_data = request.get_json(force=True)
+    terms = req_data['terms']
+    location = req_data['location']
 
     PARAMETERS = {'terms': terms,
     'limit': 10,
@@ -41,3 +42,5 @@ def yelp_resp():
 
     businessStr = ' '.join(map(str, businessArr))
     return(businessStr)
+
+# app.run(debug=True, port=5000) #run app in debug mode on port 5000
