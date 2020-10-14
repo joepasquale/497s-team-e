@@ -1,7 +1,7 @@
-import React, {Component} from 'react';
+import React from 'react';
+import {Button} from 'react-bootstrap';
 import axios from 'axios';
-
-class App extends Component {
+export class HomePage extends React.Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -42,13 +42,26 @@ class App extends Component {
   }
   render() {
     const {response} = this.state;
+    console.log(response.data);
+    let showButton = '';
+    if (response.data !== undefined) {
+      showButton = (
+        <div>
+          <br />
+          <Button>Post Successful</Button>
+        </div>
+      );
+    }
     return (
-      <div className="App">
-        <h1>Making Yelp Post Request</h1>
-        {response.data}
+      <div>
+        <div>
+          <h1>Making Yelp Post Request</h1>
+          {response.data}
+        </div>
+        <div>{showButton}</div>
       </div>
     );
   }
 }
 
-export default App;
+export default HomePage;
