@@ -3,12 +3,12 @@ package main
 import (
 	"context"
 	"fmt"
+	"log"
 	"net/http"
 	"strings"
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
-	"github.com/gin-gonic/gin"
 	"github.com/twinj/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
@@ -110,71 +110,15 @@ func fetchToken(auth *AccessToken) (string, error) {
 	}
 	return userID, nil
 }
-func refreshToken(c *gin.Context) {
-	mapToken := map[string]string{}
-	if err := c.ShouldBindJSON(&mapToken); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, err.Error())
-		return
-	}
-	refreshToken := mapToken["refresh_token"]
 
-	//verify the token
-	token, err := jwt.Parse(refreshToken, func(token *jwt.Token) (interface{}, error) {
-		//Make sure that the token method conform to "SigningMethodHMAC"
-		if _, ok := token.Method.(*jwt.SigningMethodHMAC); !ok {
-			return nil, fmt.Errorf("unexpected signing method: %v", token.Header["alg"])
-		}
-		return []byte(refreshSecret), nil
-	})
-	//if there is an error, the token must have expired
+func storeToken(token SingleToken) error {
+	at := time.Unix(token.ExpiresIn, 0) //converting Unix to UTC(to Time object)
+	now := time.Now()
+	err := rdb.Set(token.UUID, token.RefID, at.Sub(now)).Err()
 	if err != nil {
-		c.JSON(http.StatusUnauthorized, "Refresh token expired")
-		return
+		log.Fatal(err)
 	}
-	//is token valid?
-	if _, ok := token.Claims.(jwt.Claims); !ok && !token.Valid {
-		c.JSON(http.StatusUnauthorized, err)
-		return
-	}
-	//Since token is valid, get the uuid:
-	claims, ok := token.Claims.(jwt.MapClaims) //the token claims should conform to MapClaims
-	if ok && token.Valid {
-		refreshUUID, ok := claims["refresh_uuid"].(string) //convert the interface to string
-		if !ok {
-			c.JSON(http.StatusUnprocessableEntity, err)
-			return
-		}
-		userID, ok := claims["userID"].(string)
-		if !ok {
-			c.JSON(http.StatusUnprocessableEntity, "Error occurred")
-			return
-		}
-		//Delete the previous Refresh Token
-		deleted, delErr := deleteAuth(refreshUUID)
-		if delErr != nil || deleted == 0 { //if any goes wrong
-			c.JSON(http.StatusUnauthorized, "unauthorized access")
-			return
-		}
-		//Create new pairs of refresh and access tokens
-		ts, createErr := createToken(userID)
-		if createErr != nil {
-			c.JSON(http.StatusForbidden, createErr.Error())
-			return
-		}
-		//save the tokens metadata to redis
-		saveErr := createAuth(userID, ts)
-		if saveErr != nil {
-			c.JSON(http.StatusForbidden, saveErr.Error())
-			return
-		}
-		tokens := map[string]string{
-			"access_token":  ts.AccessToken,
-			"refresh_token": ts.RefreshToken,
-		}
-		c.JSON(http.StatusCreated, tokens)
-	} else {
-		c.JSON(http.StatusUnauthorized, "token expired")
-	}
+	return err
 }
 
 // TODO: implement find user from mongodb, return user id
@@ -225,20 +169,6 @@ func createAuth(userid string, td UserToken) error {
 		return errRefresh
 	}
 
-	// errAccessToken := rdb.Set(td.AccessToken, userid, at.Sub(now)).Err()
-	// if errAccessToken != nil {
-	// 	return errAccess
-	// }
-	// errRefreshToken := rdb.Set(td.RefreshToken, userid, rt.Sub(now)).Err()
-	// if errRefreshToken != nil {
-	// 	return errRefresh
-	// }
-
-	userID, _ := rdb.Get(td.AccessUUID).Result()
-	fmt.Println("access token stored into redis")
-	fmt.Println("AccessUUID: " + td.AccessUUID)
-	fmt.Println("AccessToken: " + td.AccessToken)
-	fmt.Println("userID: " + userID)
 	return nil
 }
 

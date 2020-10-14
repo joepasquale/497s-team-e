@@ -50,7 +50,10 @@ func main() {
 	r.POST("/login", login)
 	r.POST("/logout", tokenAuthMiddleware(), logout)
 	r.POST("/register", register)
-	r.POST("/refresh", refreshToken)
-	r.POST("/check", checkToken)
+	r.POST("/refresh_access_token", RefreshAccessToken)
+	r.POST("/validate_access_token", checkToken)
+	r.POST("/validate_refresh_token", checkToken)
+	r.POST("/delete_token_pair", DeleteTokens)
+	r.POST("/get_token_pair", GetTokenPair)
 	r.Run(":5555")
 }
