@@ -16,7 +16,7 @@ def index():
 # CRUD Operations for Groups:
 # CREATE Operation for Groups
 @app.route("/group/create", methods=['POST'])
-def getGroup():
+def createGroup():
     # Retreive data from POST request
     req_data = request.get_json(force=True)
     
@@ -37,7 +37,7 @@ def getGroup():
 
 # READ Operation for Groups
 @app.route("/group/read", methods=['POST'])
-def getGroup():
+def readGroup():
     # Retreive data from POST request
     req_data = request.get_json(force=True)
     groupID = req_data['groupID']
@@ -51,7 +51,7 @@ def getGroup():
 
 # UPDATE Operation for Groups
 @app.route("/group/update", methods=['POST'])
-def getGroup():
+def updateGroup():
     # Retreive data from POST request
     req_data = request.get_json(force=True)
     
@@ -76,7 +76,7 @@ def getGroup():
 
 # DELETE Operation for Groups
 @app.route("/group/delete", methods=['POST'])
-def getGroup():
+def deleteGroup():
     # Retreive data from POST request
     req_data = request.get_json(force=True)
     groupID = req_data['groupID']
