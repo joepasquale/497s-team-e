@@ -33,7 +33,8 @@ def createGroup():
         }
 
     # Insert entry with all PARAMETERS specified
-    mycol.insertOne(PARAMETERS)
+    result = mycol.insert_one(PARAMETERS)
+    return str(result)
 
 # READ Operation for Groups
 @app.route("/group/read", methods=['POST'])
@@ -46,8 +47,8 @@ def readGroup():
     PARAMETERS = {'groupID': groupID}
 
     # Find and return entry corresponding to groupID in PARAMETERS
-    result = mycol.findOne(PARAMETERS)
-    return result
+    result = mycol.find_one(PARAMETERS)
+    return str(result)
 
 # UPDATE Operation for Groups
 @app.route("/group/update", methods=['POST'])
@@ -72,7 +73,8 @@ def updateGroup():
                 }
 
     # Update groupName and groupMembers based on a groupID. Upsert=true will create a group if no DB groups match the params given
-    mycol.updateOne(filter, newParams, { 'upsert': True })
+    result = mycol.update_one(filter, newParams, { 'upsert': True })
+    return str(result)
 
 # DELETE Operation for Groups
 @app.route("/group/delete", methods=['POST'])
@@ -85,4 +87,5 @@ def deleteGroup():
     PARAMETERS = {'groupID': groupID}
 
     # Delete entry corresponding to groupID in PARAMETERS
-    mycol.deleteOne(PARAMETERS)
+    result = mycol.delete_one(PARAMETERS)
+    return str(result)
