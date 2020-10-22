@@ -4,85 +4,53 @@ from flask import Flask, request, jsonify
 import pymongo
 import os
 
+
+
 # Access db containerName:portNum
 myclient = pymongo.MongoClient("mongodb://mongo:27017/")
 mydb = myclient["mydatabase"]
 mycol = mydb["customers"]
 
+mydict = { "name": "John", "address": "Highway 37" }
+
+print("BEFORE INSERT")
+x = mycol.insert_one(mydict)
+print("AFTER INSERT")
+
 @app.route("/group")
 def index():
     return "Hello from Groups Service"
 
-# CRUD Operations for Groups:
-# CREATE Operation for Groups
-@app.route("/group/create", methods=['POST'])
+@app.route("/group/get")
 def getGroup():
-    # Retreive data from POST request
-    req_data = request.get_json(force=True)
-    
-    # Assign variables from data
-    groupID = req_data['groupID']
-    groupName = req_data['groupName']
-    groupMembers = req_data["groupMembers"]
+    result = mycol.find({"name": "John"})
+    for doc in result:
+        print(doc)
+    return "Did it work"
 
-    # Parameters for DB Query
-    PARAMETERS = {
-        'groupID': groupID,
-        'groupName': groupName,
-        'groupMembers': groupMembers
-        }
+# client = pymongo.MongoClient(
+#     os.environ['DB_PORT_27017_TCP_ADDR'],
+#     27017)
+# db = client.tododb
 
-    # Insert entry with all PARAMETERS specified
-    mycol.insertOne(PARAMETERS)
 
-# READ Operation for Groups
-@app.route("/group/read", methods=['POST'])
-def getGroup():
-    # Retreive data from POST request
-    req_data = request.get_json(force=True)
-    groupID = req_data['groupID']
+# @app.route('/')
+# def todo():
 
-    # Parameters for DB Query
-    PARAMETERS = {'groupID': groupID}
+#     _items = db.tododb.find()
+#     items = [item for item in _items]
 
-    # Find and return entry corresponding to groupID in PARAMETERS
-    result = mycol.findOne(PARAMETERS)
-    return result
+#     return render_template('todo.html', items=items)
 
-# UPDATE Operation for Groups
-@app.route("/group/update", methods=['POST'])
-def getGroup():
-    # Retreive data from POST request
-    req_data = request.get_json(force=True)
-    
-    # Assign variables from data
-    groupID = req_data['groupID']
-    groupName = req_data['groupName']
-    groupMembers = req_data["groupMembers"]
 
-    # Parameters for DB Query
-    # Filter (Updating the Matching groupID)
-    filter = { 'groupID': groupID }
-    # Values to be updated
-    newParams = { "$set": 
-                    {
-                        "groupName": groupName, 
-                        "groupMembers": groupMembers
-                    }
-                }
+# @app.route('/new', methods=['POST'])
+# def new():
 
-    # Update groupName and groupMembers based on a groupID. Upsert=true will create a group if no DB groups match the params given
-    mycol.updateOne(filter, newParams, { 'upsert': True })
+#     item_doc = {
+#         'name': request.form['name'],
+#         'description': request.form['description']
+#     }
+#     db.tododb.insert_one(item_doc)
 
-# DELETE Operation for Groups
-@app.route("/group/delete", methods=['POST'])
-def getGroup():
-    # Retreive data from POST request
-    req_data = request.get_json(force=True)
-    groupID = req_data['groupID']
+#     return redirect(url_for('todo'))
 
-    # Parameters for DB Query
-    PARAMETERS = {'groupID': groupID}
-
-    # Delete entry corresponding to groupID in PARAMETERS
-    mycol.deleteOne(PARAMETERS)
