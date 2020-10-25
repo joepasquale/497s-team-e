@@ -2,6 +2,8 @@ FROM node:alpine
 
 WORKDIR /usr/app
 
+ENV NODE_PATH /usr/app/node_modules
+
 RUN npm i install shelljs --save
 
 COPY package.json ./
