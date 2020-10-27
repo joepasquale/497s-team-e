@@ -51,8 +51,8 @@ def readGroup():
 
     # Find and return entry corresponding to groupID in PARAMETERS
     result = myCol.find_one(PARAMETERS)
-    val = result["value"]
-    return val
+    val = result["groupName"]
+    return "groupName for the groupID that was queryed: " + str(val) + "\n"
 
 # UPDATE Operation for Groups
 @app.route("/group/update", methods=['POST'])
@@ -77,9 +77,15 @@ def updateGroup():
                 }
 
     # Update groupName and groupMembers based on a groupID. Upsert=true will create a group if no DB groups match the params given
-    result = myCol.update_one(filter, newParams, { 'upsert': True })
-    val = result["value"]
-    return val
+    result = myCol.update_one(filter, newParams, upsert=True)
+    
+    # Check updated entry
+    result = myCol.find_one({"groupID": groupID})
+    updatedName = result["groupName"]
+    updatedMembers = result["groupMembers"]
+
+    returnStr =  "groupID of the object that was changed: " + str(groupID) + "\n" + "New parameters set for that group: " + "\n" + "groupName: " + str(updatedName) + "\n" + "groupMembers: " + groupMembers + "\n"
+    return returnStr
 
 # DELETE Operation for Groups
 @app.route("/group/delete", methods=['POST'])
@@ -93,5 +99,4 @@ def deleteGroup():
 
     # Delete entry corresponding to groupID in PARAMETERS
     result = myCol.delete_one(PARAMETERS)
-    val = result["value"]
-    return val
+    return "groupID of the deleted group: " + str(groupID) + "\n"
