@@ -22,6 +22,9 @@ services:
         expose:
             #not sure about this, could be 8080, or dupes not allowed?
             - 8181
+        # Not sure if this is required, solved an error so I think it is
+        depends_on: 
+            - mongodb
 
     mongodb:
         build: ./mongodb
@@ -42,6 +45,7 @@ services:
             - "80:80"
         depends_on:
             - ui
+            - mongodb
 
     ui:
         build: ./linkup-ui

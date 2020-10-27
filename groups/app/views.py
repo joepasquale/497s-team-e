@@ -5,9 +5,10 @@ import pymongo
 import os
 
 # Access db containerName:portNum
-myclient = pymongo.MongoClient("mongodb://mongo:27017/")
-mydb = myclient["mydatabase"]
-mycol = mydb["customers"]
+# mongo is the container name, and thus our host. It is hosting the mongo instance on port 27017, so we access from there.
+myClient = pymongo.MongoClient("mongodb://mongo:27017/", connect=False)
+myDB = myClient["mydatabase"]
+myCol = myDB["group"]
 
 @app.route("/group")
 def index():
@@ -33,8 +34,10 @@ def createGroup():
         }
 
     # Insert entry with all PARAMETERS specified
-    result = mycol.insert_one(PARAMETERS)
-    return str(result)
+    # Result is an InsertOneResult
+    result = myCol.insert_one(PARAMETERS)
+    resultString = "Inserted a DB entry with the following parameters: " + str(PARAMETERS)
+    return resultString
 
 # READ Operation for Groups
 @app.route("/group/read", methods=['POST'])
@@ -47,8 +50,9 @@ def readGroup():
     PARAMETERS = {'groupID': groupID}
 
     # Find and return entry corresponding to groupID in PARAMETERS
-    result = mycol.find_one(PARAMETERS)
-    return str(result)
+    result = myCol.find_one(PARAMETERS)
+    val = result["value"]
+    return val
 
 # UPDATE Operation for Groups
 @app.route("/group/update", methods=['POST'])
@@ -73,8 +77,9 @@ def updateGroup():
                 }
 
     # Update groupName and groupMembers based on a groupID. Upsert=true will create a group if no DB groups match the params given
-    result = mycol.update_one(filter, newParams, { 'upsert': True })
-    return str(result)
+    result = myCol.update_one(filter, newParams, { 'upsert': True })
+    val = result["value"]
+    return val
 
 # DELETE Operation for Groups
 @app.route("/group/delete", methods=['POST'])
@@ -87,5 +92,6 @@ def deleteGroup():
     PARAMETERS = {'groupID': groupID}
 
     # Delete entry corresponding to groupID in PARAMETERS
-    result = mycol.delete_one(PARAMETERS)
-    return str(result)
+    result = myCol.delete_one(PARAMETERS)
+    val = result["value"]
+    return val
