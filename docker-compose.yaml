@@ -14,7 +14,7 @@ services:
 
     groups:
         build: ./groups
-        # Naming a container gives it that hostname as well. So hostname for this container is "flask"
+        # Naming a container gives it that hostname as well. So hostname for this container is "groups"
         container_name: groups
         restart: always
         # environment:
