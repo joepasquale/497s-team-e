@@ -1,5 +1,8 @@
 # Groups Service Documentation
 
+## Service Author
+Ron Arbo
+
 ## Description
 This is a service that manages our "Group" objects for our application. It is written with the Flask Python framework. As of now, the service just maintains the object definition for Groups, and allows database access to our Groups mongoDB. This service is routed to by our nginx service, and connects to one of our mongoDB services through docker-compose netowrking. 
 
