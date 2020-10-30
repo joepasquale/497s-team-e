@@ -88,8 +88,10 @@ def updateEvent():
     # Check updated entry
     result = myCol.find_one({"eventID": eventID, "groupID": groupID})
     updatedName = result["eventName"]
+    updatedTime = result["eventTime"]
+    updatedLocation = result["eventLocation"]
 
-    returnStr =  "eventID of the object that was changed: " + str(eventID) + "\n" + "New parameters set for that event: " + "\n" + "eventName: " + str(updatedName)
+    returnStr =  "eventID of the object that was changed: " + str(eventID) + "\n" + "New parameters set for that event: " + "\n" + "eventName: " + str(updatedName) + "\n" + "eventTime: " + str(updatedTime) + "\n" "eventLocation: " + str(updatedLocation) + "\n"
     return returnStr
 
 # DELETE Operation for events
