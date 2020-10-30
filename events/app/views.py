@@ -6,7 +6,7 @@ import os
 
 # Access db containerName:portNum
 # mongo is the container name, and thus our host. It is hosting the mongo instance in the "mongo" container on port 27018, so we access from there.
-myClient = pymongo.MongoClient("mongodb://mongoEvents:27018/", connect=False)
+myClient = pymongo.MongoClient("mongodb://mongoEvents:27017/", connect=False)
 myDB = myClient["mydatabase"]
 myCol = myDB["event"]
 

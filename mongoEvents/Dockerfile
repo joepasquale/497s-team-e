@@ -1,4 +1,4 @@
 # Mongo Base Image
 FROM mongo
 
-EXPOSE 27018
+EXPOSE 27017

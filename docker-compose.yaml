@@ -48,7 +48,7 @@ services:
         container_name: mongoEvents
         # HOST_PORT:CONTAINER_PORT
         ports:
-            - "27018:27018"
+            - "27018:27017"
 
     nginx:
         build: ./nginx
