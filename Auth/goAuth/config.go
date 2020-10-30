@@ -17,4 +17,8 @@ var dbPassword = "password"
 //var mongodbURL = "mongodb+srv://Macbook:acLe9y63lP7ORH3l@cluster0.yfyl0.gcp.mongodb.net/uplink-test?retryWrites=true&w=majority"
 var mongodbURL = fmt.Sprintf("mongodb://%s:%s@mongo:27017", dbUsername, dbPassword)
 
+//var mongodbURL = fmt.Sprintf("localhost://%s:%s@mongo:27017", dbUsername, dbPassword)
+
 var redisURL = "redis:6379"
+
+//var redisURL = "localhost:6379"

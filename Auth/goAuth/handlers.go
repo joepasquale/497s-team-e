@@ -15,10 +15,13 @@ import (
 
 func login(c *gin.Context) {
 	var u LoginForm
+	// accept both json and form data
 	if err := c.ShouldBind(&u); err != nil {
-		c.JSON(http.StatusUnprocessableEntity, "Invalid json provided")
+		c.JSON(http.StatusUnprocessableEntity, "Invalid form provided")
 		return
 	}
+	fmt.Println("Request form:")
+	fmt.Println(u)
 	//compare the user from the request, with the one we defined:
 	userID, found := findUser(u.Username, u.Password)
 	if found == false {
@@ -145,7 +148,7 @@ func getToken(c *gin.Context) {
 	var simple SingleToken
 	simple.RefID = req.RefID
 	simple.UUID = uuid.NewV4().String()
-	simple.ExpiresIn = time.Now().Add(time.Minute * time.Duration(req.ExpiresInMinutes)).Unix()
+	simple.ExpiresIn = time.Now().Add(time.Minute * 15).Unix()
 	atClaim := jwt.MapClaims{
 		"access_uuid": simple.UUID,
 		"exp":         simple.ExpiresIn,
@@ -218,7 +221,7 @@ func DeleteTokens(c *gin.Context) {
 // GetTokenPair a pair of tokens
 func GetTokenPair(c *gin.Context) {
 	var req TokenRequestForm
-	if err := c.ShouldBindJSON(&req); err != nil {
+	if err := c.ShouldBind(&req); err != nil {
 		c.JSON(http.StatusBadRequest, "request info invalid")
 		return
 	}

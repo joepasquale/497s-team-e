@@ -9,6 +9,7 @@ import (
 	"time"
 
 	"github.com/dgrijalva/jwt-go"
+	"github.com/gin-gonic/gin"
 	"github.com/twinj/uuid"
 	"go.mongodb.org/mongo-driver/bson"
 	"golang.org/x/crypto/bcrypt"
@@ -184,5 +185,18 @@ func pingRedis() {
 	_, err := rdb.Ping().Result() // check redis is connected
 	if err != nil {
 		panic(err)
+	}
+}
+
+// Allow CORS access
+func corsMiddleware() gin.HandlerFunc {
+	return func(c *gin.Context) {
+		if c.Writer.Header().Get("Method") == "OPTIONS" {
+			c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
+			c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
+			c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With, X-Requested-By")
+			c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT, DELETE")
+			c.Next()
+		}
 	}
 }

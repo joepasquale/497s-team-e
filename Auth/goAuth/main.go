@@ -5,6 +5,7 @@ import (
 	"fmt"
 	"log"
 
+	"github.com/gin-contrib/cors"
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 	"github.com/twinj/uuid"
@@ -34,6 +35,7 @@ var userCollection = mongodb.Database("uplink-test").Collection("users")
 
 func main() {
 	var r = gin.Default()
+	r.Use(cors.Default())
 	// Check the connection
 	err = mongodb.Ping(context.TODO(), nil)
 	if err != nil {
@@ -46,7 +48,8 @@ func main() {
 		log.Fatal(err)
 	}
 	fmt.Println(pong, err)
-
+	r.StaticFile("login.html", "./static/login.html")
+	r.StaticFile("jwt.js", "./static/jwt.js")
 	r.POST("/login", login)
 	r.POST("/logout", tokenAuthMiddleware(), logout)
 	r.POST("/register", register)
