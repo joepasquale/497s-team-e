@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+	<script src="jwt.js"></script>
+	<link rel="stylesheet" href="login.css">
+
+	<title>JWT authentication</title>
+</head>
+<body>
+	<!-- side bar on the top -->
+	<nav class="navbar navbar-expand-lg navbar-light bg-light">
+		<a class="navbar-brand" href="#">JWT token handling</a>
+		<button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+		  <span class="navbar-toggler-icon"></span>
+		</button>
+
+		<!-- left nav bar -->
+		<div class="collapse navbar-collapse" id="leftBar">
+		  <ul class="navbar-nav">
+			<li class="nav-item active">
+			  <a class="nav-link " href="/">Home</a>
+			</li>
+			<li class="nav-item active">
+			  <a class="nav-link" href="/posts">Trending</a>
+			</li>
+			<li class="nav-item active">
+			  <a class="nav-link" href="/create_post">Make a Post</a>
+			</li>
+		  </ul>
+		</div>
+
+		<!-- right side bar -->
+		<div class="collapse navbar-collapse justify-content-end" id="rightBar">
+			<a class="nav-item nav-link btn-outline-success" href="/register">Register</a>
+		</div>
+	  </nav>
+	  <div class="login">
+        <form action="javascript:void(0)">
+            <h2 class="sr-only">Login Form</h2>
+            <div class="form-group"><input required class="form-control" type="username" name="username" id="username" placeholder="username"></div>
+            <div class="form-group"><input required class="form-control" type="password" name="password" id="password" placeholder="password"></div>
+			<div class="form-group"><button class="btn btn-primary btn-block" type="submit" onclick="login()">Log In</button></div><a class="forgot" href="#">Forgot your email or password?</a>
+			<legend id="output"></legend>
+		</form>
+	</div>
+	
+</body>
