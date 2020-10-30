@@ -17,25 +17,38 @@ services:
         # Naming a container gives it that hostname as well. So hostname for this container is "groups"
         container_name: groups
         restart: always
-        # environment:
-        #     - APP_NAME=MyFlaskApp
         expose:
             #not sure about this, could be 8080, or dupes not allowed?
             - 8181
         # Not sure if this is required, solved an error so I think it is
         depends_on: 
-            - mongodb
+            - mongogroups
 
-    mongodb:
-        build: ./mongodb
-        container_name: mongo
+    events:
+        build: ./events
+        # Naming a container gives it that hostname as well. So hostname for this container is "events"
+        container_name: events
+        restart: always
+        expose:
+            #not sure about this, could be 8080, or dupes not allowed?
+            - 8282
+        # Not sure if this is required, solved an error so I think it is
+        depends_on: 
+            - mongoevents
+
+    mongogroups:
+        build: ./mongoGroups
+        container_name: mongoGroups
         # HOST_PORT:CONTAINER_PORT
         ports:
             - "27017:27017"
-        # environment:
-        #     - MONGO_INITDB_DATABASE=
-        #     - MONGO_INITDB_ROOT_USERNAME=
-        #     - MONGO_INITDB_PASSWORD=
+
+    mongoevents:
+        build: ./mongoEvents
+        container_name: mongoEvents
+        # HOST_PORT:CONTAINER_PORT
+        ports:
+            - "27018:27018"
 
     nginx:
         build: ./nginx
@@ -45,7 +58,8 @@ services:
             - "80:80"
         depends_on:
             - ui
-            - mongodb
+            - mongogroups
+            - mongoevents
 
     ui:
         build: ./linkup-ui

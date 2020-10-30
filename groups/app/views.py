@@ -5,14 +5,14 @@ import pymongo
 import os
 
 # Access db containerName:portNum
-# mongo is the container name, and thus our host. It is hosting the mongo instance on port 27017, so we access from there.
-myClient = pymongo.MongoClient("mongodb://mongo:27017/", connect=False)
+# mongo is the container name, and thus our host. It is hosting the mongo instance in the "mongo" container on port 27017, so we access from there.
+myClient = pymongo.MongoClient("mongodb://mongoGroups:27017/", connect=False)
 myDB = myClient["mydatabase"]
 myCol = myDB["group"]
 
 @app.route("/group")
 def index():
-    return "Hello from Groups Service"
+    return "Welcome to the Groups Service! Please access one of our CRUD endpoints. See documentation for formatting"
 
 # CRUD Operations for Groups:
 # CREATE Operation for Groups

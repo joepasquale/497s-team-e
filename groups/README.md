@@ -4,7 +4,7 @@
 Ron Arbo
 
 ## Description
-This is a service that manages our "Group" objects for our application. It is written with the Flask Python framework. As of now, the service just maintains the object definition for Groups, and allows database access to our Groups mongoDB. This service is routed to by our nginx service, and connects to one of our mongoDB services through docker-compose netowrking. 
+This is a service that manages our "Group" objects for our application. It is written with the Flask Python framework. As of now, the service just maintains the object definition for Groups, and allows database access to our Groups mongoDB. This service is routed to by our nginx service, and connects to one of our mongoDB services through docker-compose networking. 
 
 ## Object Definition
 ```
@@ -54,7 +54,7 @@ response: "groupName for the groupID that was queryed: (groupName)"
 ### Update a Group
 response: "groupID of the object that was changed: (groupID) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;New parameters set for that group:<br>
-&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groupName: (groupName>) <br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groupName: (groupName) <br>
 &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;groupMembers: (groupMembers)<br>
 
 ### Delete a Group
