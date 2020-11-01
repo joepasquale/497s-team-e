@@ -1,3 +1,8 @@
+# Authentication Service Documentation
+
+## Service Author
+Juelin Liu
+
 Authentication using JWT(JSON Web Token)
 
 What is JWT?
