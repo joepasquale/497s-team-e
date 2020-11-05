@@ -1,8 +1,8 @@
 FROM golang
 
-COPY . /go/src/github.com/Juelin-Liu/goAuth
+COPY . /go/src/github.com/Juelin-Liu/goApp
 
-WORKDIR /go/src/github.com/Juelin-Liu/goAuth
+WORKDIR /go/src/github.com/Juelin-Liu/goApp
 
 RUN go get ./
 
@@ -10,4 +10,4 @@ RUN go build
 
 EXPOSE 5555
 
-ENTRYPOINT [ "./goAuth" ]
+ENTRYPOINT [ "./goApp" ]
