@@ -1,10 +1,9 @@
 # Import modules
-from app import app
+from app import app, calSetup
 from flask_cors import CORS
 import requests
 from flask import Flask, request, jsonify
 from datetime import datetime, timedelta
-from calSetup import get_calendar_service
 
 # Define the API Key, Define the Endpoint, Define the Header
 API_KEY = '#'
@@ -23,7 +22,7 @@ def index():
 @app.route("/gcal/add")
 def create_event():
    # creates one hour event tomorrow 10 AM IST
-   service = get_calendar_service()
+   service = calSetup.get_calendar_service()
 
    d = datetime.now().date()
    tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
@@ -49,7 +48,7 @@ def create_event():
 @app.route("gcal/update")
 def update_event():
     # update the event to tomorrow 9 AM IST
-    service = get_calendar_service()
+    service = calSetup.get_calendar_service()
     d = datetime.now().date()
     tomorrow = datetime(d.year, d.month, d.day, 9)+timedelta(days=1)
     start = tomorrow.isoformat()
