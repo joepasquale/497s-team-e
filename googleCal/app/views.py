@@ -23,7 +23,6 @@ def index():
 def create_event():
    # creates one hour event tomorrow 10 AM IST
    service = calSetup.get_calendar_service()
-
    d = datetime.now().date()
    tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
    start = tomorrow.isoformat()
@@ -45,7 +44,7 @@ def create_event():
    print("ends at: ", event_result['end']['dateTime'])
 
 
-@app.route("gcal/update")
+@app.route("/gcal/update")
 def update_event():
     # update the event to tomorrow 9 AM IST
     service = calSetup.get_calendar_service()
