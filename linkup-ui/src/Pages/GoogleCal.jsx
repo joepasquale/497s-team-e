@@ -20,8 +20,8 @@ export class HomePage extends React.Component {
       eventExportResponse: '',
     };
   }
-  handleSubmitEventRead = () => {
-    const id = document.getElementById('eventReadID').value;
+  handleSubmitEventExport = () => {
+    const id = document.getElementById('eventExportID').value;
 
     const toSend = {
       eventID: id,
@@ -31,7 +31,7 @@ export class HomePage extends React.Component {
     console.log(toSend);
     instance.defaults.headers.common['Content-Type'] = 'application/json';
     instance
-      .post('http://' + window.location.hostname + '/event/read', toSend)
+      .post('http://' + window.location.hostname + '/gcal/add', toSend)
       .then(res => {
         console.log(res);
         outer.setState({eventExportResponse: res});
@@ -55,7 +55,7 @@ export class HomePage extends React.Component {
             <Form.Group>
               <Col xs="5">
                 <Form.Label>Event ID</Form.Label>
-                <Form.Control type="text" id="eventDeleteID" />
+                <Form.Control type="text" id="eventExportID" />
               </Col>
             </Form.Group>
 

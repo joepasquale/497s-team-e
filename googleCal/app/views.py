@@ -19,7 +19,7 @@ def index():
     return "This is a test for the gCal API"
 
 
-@app.route("/gcal/add")
+@app.route("/gcal/add", methods=['POST'])
 def create_event():
    # creates one hour event tomorrow 10 AM IST
    service = calSetup.get_calendar_service()
