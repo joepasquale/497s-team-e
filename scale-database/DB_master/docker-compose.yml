@@ -1,0 +1,119 @@
+version: '3'
+
+services:
+    mongors1n1:
+        container_name: mongors1n1
+        image: mongo
+        command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 
+        ports:
+            - "27101:27017"
+        expose:
+            - "27017"
+        networks:
+            - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/data1:/data/db
+
+    mongors1n2:
+        container_name: mongors1n2
+        image: mongo
+        command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 
+        ports:
+            - "27102:27017"
+        expose:
+            - "27017"
+        networks:
+            - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/data2:/data/db
+
+    mongors1n3:
+        container_name: mongors1n3
+        image: mongo
+        command: mongod --shardsvr --replSet mongors1 --dbpath /data/db --port 27017 
+        ports:
+            - "27103:27017"
+        expose:
+            - "27017"
+        networks:
+            - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/data3:/data/db
+
+    # configuration service
+    mongocfg1:
+        container_name: mongocfg1
+        # restart: always
+        image: mongo
+        command: mongod --configsvr --replSet mongocfg --dbpath /data/db --port 27017
+        environment: 
+            TERM: xterm
+        ports: 
+            - "28001:27017"
+        expose:
+            - "27017"
+        networks:
+            - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/config1:/data/db
+
+    mongocfg2:
+        container_name: mongocfg2
+        # restart: always
+        image: mongo
+        command: mongod --configsvr --replSet mongocfg --dbpath /data/db --port 27017
+        environment: 
+            TERM: xterm
+        ports: 
+            - "28002:27017"
+        expose:
+            - "27017"
+        networks:
+            - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/config2:/data/db
+
+    mongocfg3:
+        container_name: mongocfg3
+        # restart: always
+        image: mongo
+        command: mongod --configsvr --replSet mongocfg --dbpath /data/db --port 27017
+        environment: 
+            TERM: xterm
+        ports: 
+            - "28003:27017"
+        expose:
+            - "27017"
+        networks:
+            - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/config3:/data/db
+
+    # Routing service for the two sharded database
+    mongos1:
+        container_name: mongos1
+        # restart: always
+        image: mongo
+        depends_on: 
+            - mongocfg1
+            - mongocfg2
+        command: mongos --configdb mongocfg/mongocfg1:27017,mongocfg2:27017,mongocfg3:27017 --port 27019 --bind_ip 0.0.0.0
+        ports:
+            - "27019:27019"
+        expose:
+            - "27019"
+        networks:
+            - mongo_cluster
+        # volumes: 
+        #     - /etc/localtime:/etc/localtime:ro
+
+networks:
+  mongo_cluster:
+    driver: bridge
+    name: mongo_cluster

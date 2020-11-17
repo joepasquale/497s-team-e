@@ -1,0 +1,19 @@
+version: '3'
+
+services:    
+    mongo-express:
+        image: mongo-express
+        restart: always
+        ports:
+            - 8081:8081
+        networks:
+            - mongo_cluster
+        environment: 
+            ME_CONFIG_MONGODB_SERVER: mongos1
+            ME_CONFIG_MONGODB_PORT: 27019
+            # ME_CONFIG_MONGODB_ADMINUSERNAME: root
+            # ME_CONFIG_MONGODB_ADMINPASSWORD: password
+networks:
+  mongo_cluster:
+    external: 
+      name: mongo_cluster

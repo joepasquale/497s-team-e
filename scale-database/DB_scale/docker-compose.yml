@@ -1,0 +1,52 @@
+version: '3'
+
+services:
+    # Scale Sharded services        
+    mongors2n1:
+        container_name: mongors2n1
+        image: mongo
+        # restart: always
+        command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+        ports:
+            - "27201:27017"
+        expose:
+            - "27017"
+        # networks:
+        #     - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/data4:/data/db
+    mongors2n2:
+        container_name: mongors2n2
+        image: mongo
+        # restart: always
+        command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+        ports:
+            - "27202:27017"
+        expose:
+            - "27017"
+        # networks:
+        #     - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/data5:/data/db
+
+    mongors2n3:
+        container_name: mongors2n3
+        image: mongo
+        # restart: always
+        command: mongod --shardsvr --replSet mongors2 --dbpath /data/db --port 27017
+        ports:
+            - "27203:27017"
+        expose:
+            - "27017"
+        # networks:
+        #     - mongo_cluster
+        # volumes:
+        #     - /etc/localtime:/etc/localtime:ro
+        #     - ./mongo_cluster/data6:/data/db
+
+networks:
+  default:
+    external: 
+      name: mongo_cluster

@@ -21,11 +21,20 @@ Simply put, the work need to be done here is choosing the Shard Key for each col
 
 ## Code Explanation:
 ### How to run
-In the current directory run:
-> sudo bash run.sh
+In this directory, we demonstrate how to use and scale a sharded mongoDB.
 
-The script will do the rest for you.
+First you need to set up the router, config server and main server instances.
+In DB_master, run:
+> sudo docker-compose up --build
+This will set up the associated servers and create a network called "mongo_cluster"
+Then, run
+> sudo bash config.sh
+The commands initialize the servers and connect them together. Now the DB is ready to go.
+Simply hit enter after after each command to execute the next one.
 
+Then, the db is set up and other microservices can use it once they join "mongo_cluster" network.
+
+Using this 
 ### What is this code for
 Considering the scenario when you have more than ten million users using the service.
 As the number of users increases, the indexing need to be done might overwhelm a single server.
@@ -47,4 +56,4 @@ It is mongors1 and mongors2 services in in the docker-compose file.
 
 For mongocfg, mongors1, and mongors2, each is made by three replica set of mongodb instance to increase avalability. 
 
-At the end of day, mongodb://mongos:27017 is where all the other microservices should send request to.
+Simply put, mongodb://mongos1:27019 is where all the other microservices should send request to.
