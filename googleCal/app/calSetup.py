@@ -27,11 +27,16 @@ def get_calendar_service():
         else:
             flow = InstalledAppFlow.from_client_secrets_file(
                 'credentials.json', SCOPES)
-            creds = flow.run_local_server(port=33889, authorization_prompt_message='Please visit this URL: {url}',
-    success_message='The auth flow is complete; you may close this window.', open_browser=True)
+            creds = flow.run_local_server(port=33889)
+            
         # Save the credentials for the next run
         with open('token.pickle', 'wb') as token:
             pickle.dump(creds, token)
 
-    service = build('calendar', 'v3', credentials=creds)
-    return service
+    try:
+        service = build("calendar", "v3", credentials=creds)
+        print('calendar service created successfully')
+        return service
+    except Exception as e:
+        print(e)
+        return None

@@ -33,9 +33,9 @@ services:
             - APP_NAME=MyFlaskApp
         expose:
             - 8383
+        # HOST_PORT:CONTAINER_PORT
         ports:
-            -"33889:33889"
-
+            - "33889:33889"
          
     events:
         build: ./events
