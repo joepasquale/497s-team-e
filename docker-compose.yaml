@@ -33,6 +33,8 @@ services:
             - APP_NAME=MyFlaskApp
         expose:
             - 8383
+        ports:
+            -"33889:33889"
 
          
     events:

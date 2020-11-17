@@ -6,10 +6,8 @@ from flask import Flask, request, jsonify
 from datetime import datetime, timedelta
 
 # Define the API Key, Define the Endpoint, Define the Header
-API_KEY = '#'
 CREDENTIALS = 'googleCal/credentials.json'
 SCOPE = ["https://www.googleapis.com/auth/calendar.events"]
-HEADERS = {'Authorization': 'bearer %s' % API_KEY}
 
 CORS(app)
 
