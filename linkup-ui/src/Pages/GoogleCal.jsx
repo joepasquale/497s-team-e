@@ -54,18 +54,20 @@ export class HomePage extends React.Component {
           <Form>
             <Form.Group>
               <Col xs="5">
+                <Button 
+                variant="success"
+                type="button"
+                onClick={e => this.handleSubmitEventExport(e)}>
+                  Connect to GCal
+                </Button>
                 <Form.Label>Event ID</Form.Label>
                 <Form.Control type="text" id="eventExportID" />
               </Col>
             </Form.Group>
 
             <Col>
-              <Button
-                variant="success"
-                type="button"
-                onClick={e => this.handleSubmitEventExport(e)}
-              >
-                Export to Google Calendar
+              <Button>
+                Add to GCal (WIP)
               </Button>
               <div>
                 <br />

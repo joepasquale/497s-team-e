@@ -17,7 +17,9 @@ def index():
 def create_event():
    # creates one hour event tomorrow 10 AM IST
    service = calSetup.get_calendar_service()
+   print("service fetched")
    d = datetime.now().date()
+   print(d)
    tomorrow = datetime(d.year, d.month, d.day, 10)+timedelta(days=1)
    start = tomorrow.isoformat()
    end = (tomorrow + timedelta(hours=1)).isoformat()
