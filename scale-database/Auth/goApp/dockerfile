@@ -4,9 +4,9 @@ COPY . /go/src/github.com/Juelin-Liu/goApp
 
 WORKDIR /go/src/github.com/Juelin-Liu/goApp
 
-RUN go get ./
+RUN go get .
 
-RUN go build
+RUN go build .
 
 EXPOSE 8000
 
