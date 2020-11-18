@@ -1,7 +1,9 @@
 import React from 'react';
-import {Button} from 'react-bootstrap';
-import {Form, Col, Card} from 'react-bootstrap';
+import ReactDOM from 'react-dom'
+import { Button } from 'react-bootstrap';
+import { Form, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
+import GoogleLogin from 'react-google-login'
 
 export class HomePage extends React.Component {
   constructor(props) {
@@ -9,12 +11,12 @@ export class HomePage extends React.Component {
     this.mocking = true;
     this.data = this.mocking
       ? {
-          eventID: 0,
-          groupID: 0,
-          eventName: '',
-          eventTime: '',
-          eventLocation: '',
-        }
+        eventID: 0,
+        groupID: 0,
+        eventName: '',
+        eventTime: '',
+        eventLocation: '',
+      }
       : {};
     this.state = {
       eventExportResponse: '',
@@ -27,18 +29,18 @@ export class HomePage extends React.Component {
       eventID: id,
     };
     const outer = this;
-    const instance = axios.create({timeout: 10000});
+    const instance = axios.create({ timeout: 10000 });
     console.log(toSend);
     instance.defaults.headers.common['Content-Type'] = 'application/json';
     instance
       .post('http://' + window.location.hostname + '/gcal/add', toSend)
       .then(res => {
         console.log(res);
-        outer.setState({eventExportResponse: res});
+        outer.setState({ eventExportResponse: res });
       })
       .catch(err => {
         console.log(err);
-        outer.setState({eventExportResponse: err});
+        outer.setState({ eventExportResponse: err });
       });
   };
 
@@ -46,6 +48,10 @@ export class HomePage extends React.Component {
     const {
       eventExportResponse,
     } = this.state;
+
+    const responseGoogle = (response) => {
+      console.log(response);
+    }
 
     const exportEvent = (
       <Card>
@@ -71,6 +77,12 @@ export class HomePage extends React.Component {
                 <br />
                 {eventExportResponse.data}
               </div>
+              <GoogleLogin
+                clientId="350429252210-hq617ss9idkeat0h66hbop59ul53mpnf.apps.googleusercontent.com"
+                buttonText="Login"
+                onSuccess={responseGoogle}
+                onFailure={responseGoogle}
+                cookiePolicy={'single_host_origin'} />
             </Col>
           </Form>
         </Card.Body>
