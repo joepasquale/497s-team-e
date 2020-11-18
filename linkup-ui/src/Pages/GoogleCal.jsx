@@ -1,9 +1,9 @@
 import React from 'react';
-import ReactDOM from 'react-dom'
 import { Button } from 'react-bootstrap';
 import { Form, Col, Card } from 'react-bootstrap';
 import axios from 'axios';
-import GoogleLogin from 'react-google-login'
+import Login from '../Components/Login';
+import Logout from '../Components/Logout';
 
 export class HomePage extends React.Component {
   constructor(props) {
@@ -22,27 +22,6 @@ export class HomePage extends React.Component {
       eventExportResponse: '',
     };
   }
-  handleGoogleLogin = (response) => {
-    const toSend = {
-      "provider": "google-oauth2",
-      "code": response.code,
-      "redirect-uri": "postmessage"
-    };
-    const outer = this;
-    const instance = axios.create({ timeout: 10000 });
-    console.log(toSend);
-    instance.defaults.headers.common['Content-Type'] = 'application/json';
-    instance
-      .post('http://' + window.location.hostname + '/gcal/auth', toSend)
-      .then(res => {
-        console.log(res);
-        outer.setState({ eventExportResponse: res });
-      })
-      .catch(err => {
-        console.log(err);
-        outer.setState({ eventExportResponse: err });
-      });
-  };
 
   handleSubmitEventExport = () => {
     const id = document.getElementById('eventExportID').value;
@@ -71,10 +50,6 @@ export class HomePage extends React.Component {
       eventExportResponse,
     } = this.state;
 
-    const responseGoogle = (response) => {
-      this.handleGoogleLogin(response);
-    }
-
     const exportEvent = (
       <Card>
         <Card.Body>
@@ -99,14 +74,11 @@ export class HomePage extends React.Component {
                 <br />
                 {eventExportResponse.data}
               </div>
-              <GoogleLogin
-                clientId="350429252210-hq617ss9idkeat0h66hbop59ul53mpnf.apps.googleusercontent.com"
-                buttonText="Login"
-                responseType="code"
-                //on success post to backend
-                onSuccess={responseGoogle}
-                onFailure={responseGoogle}
-                cookiePolicy={'single_host_origin'} />
+              <Login />
+              <div>
+                <br />
+              </div>
+              <Logout />
             </Col>
           </Form>
         </Card.Body>
