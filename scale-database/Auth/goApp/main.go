@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 
+	"go.mongodb.org/mongo-driver/mongo/readpref"
+
 	"github.com/gin-gonic/gin"
 	"github.com/go-redis/redis"
 	"go.mongodb.org/mongo-driver/mongo"
@@ -29,7 +31,7 @@ var userCollection = mongodb.Database("uplink-test").Collection("users")
 func main() {
 	var r = gin.Default()
 	// Check the connection
-	err = mongodb.Ping(context.TODO(), nil)
+	err = mongodb.Ping(context.TODO(), readpref.Primary())
 	if err != nil {
 		log.Fatal(err)
 	}
