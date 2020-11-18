@@ -16,7 +16,6 @@ function Login() {
     refreshTokenSetup(res);
     const outer = this;
     const instance = axios.create({ timeout: 10000 });
-    instance.defaults.headers.common['Content-Type'] = 'application/json';
     instance.defaults.headers.common['Authorization'] = res.getAuthResponse().id_token;
     instance
       .post('http://' + window.location.hostname + '/gcal/auth', res)

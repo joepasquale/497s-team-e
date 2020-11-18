@@ -17,13 +17,9 @@ service = None
 def index():
     global service
     print("This is a test for the Google API")
-    req_data = request.get_json(force=True)
-    creds = req_data['tokenId']
+    token = request.headers['Authorization']
     try:
         # Specify the CLIENT_ID of the app that accesses the backend:
-        idinfo = id_token.verify_oauth2_token(creds, requests.Request(
-        ), '350429252210-hq617ss9idkeat0h66hbop59ul53mpnf.apps.googleusercontent.com')
-
         # Or, if multiple clients access the backend server:
         # idinfo = id_token.verify_oauth2_token(token, requests.Request())
         # if idinfo['aud'] not in [CLIENT_ID_1, CLIENT_ID_2, CLIENT_ID_3]:
@@ -34,17 +30,17 @@ def index():
         #     raise ValueError('Wrong hosted domain.')
 
         # ID token is valid. Get the user's Google Account ID from the decoded token.
-        userid = idinfo['sub']
-        service = build("calendar", "v3", credentials=userid)
+        service = build("calendar", "v3", credentials=token)
         print('calendar service created successfully')
     except Exception as e:
         print(e)
-        print(req_data['tokenId'])
+        print(token)
         return None
 
 
 @app.route("/gcal/add", methods=['POST'])
 def create_event():
+   service = build("calendar", "v3", credentials=request.headers['Authorization'])
    # creates one hour event tomorrow 10 AM IST
    d = datetime.now().date()
    print(d)
