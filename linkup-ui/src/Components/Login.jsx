@@ -16,7 +16,9 @@ function Login() {
     refreshTokenSetup(res);
     const outer = this;
     const instance = axios.create({ timeout: 10000 });
-    instance.defaults.headers.common['Authorization'] = res.getAuthResponse().id_token;
+    instance.defaults.headers.common['Authorization'] = res.getAuthResponse();
+    instance.defaults.headers.common['tokenId'] = res.getAuthResponse().id_token;
+    instance.defaults.headers.common['Access Token'] = res.accessToken;
     instance
       .post('http://' + window.location.hostname + '/gcal/auth', res)
       .then(res => {
@@ -43,6 +45,7 @@ function Login() {
         buttonText="Login"
         onSuccess={onSuccess}
         onFailure={onFailure}
+        scope='https://www.googleapis.com/auth/calendar.events'
         cookiePolicy={'single_host_origin'}
         style={{ marginTop: '100px' }}
         isSignedIn={true}

@@ -63,17 +63,6 @@ export class HomePage extends React.Component {
             </Form.Group>
 
             <Col>
-              <Button
-                variant="success"
-                type="button"
-                onClick={e => this.handleSubmitEventExport(e)}
-              >
-                Export to Google Calendar
-              </Button>
-              <div>
-                <br />
-                {eventExportResponse.data}
-              </div>
               <Login />
               <div>
                 <br />
