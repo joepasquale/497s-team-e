@@ -22,6 +22,28 @@ export class HomePage extends React.Component {
       eventExportResponse: '',
     };
   }
+  handleGoogleLogin = (response) => {
+    const toSend = {
+      "provider": "google-oauth2",
+      "code": response.code,
+      "redirect-uri": "postmessage"
+    };
+    const outer = this;
+    const instance = axios.create({ timeout: 10000 });
+    console.log(toSend);
+    instance.defaults.headers.common['Content-Type'] = 'application/json';
+    instance
+      .post('http://' + window.location.hostname + '/gcal/auth', toSend)
+      .then(res => {
+        console.log(res);
+        outer.setState({ eventExportResponse: res });
+      })
+      .catch(err => {
+        console.log(err);
+        outer.setState({ eventExportResponse: err });
+      });
+  };
+
   handleSubmitEventExport = () => {
     const id = document.getElementById('eventExportID').value;
 
@@ -50,7 +72,7 @@ export class HomePage extends React.Component {
     } = this.state;
 
     const responseGoogle = (response) => {
-      console.log(response);
+      this.handleGoogleLogin(response);
     }
 
     const exportEvent = (
@@ -80,6 +102,8 @@ export class HomePage extends React.Component {
               <GoogleLogin
                 clientId="350429252210-hq617ss9idkeat0h66hbop59ul53mpnf.apps.googleusercontent.com"
                 buttonText="Login"
+                responseType="code"
+                //on success post to backend
                 onSuccess={responseGoogle}
                 onFailure={responseGoogle}
                 cookiePolicy={'single_host_origin'} />
