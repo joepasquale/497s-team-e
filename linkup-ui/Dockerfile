@@ -4,7 +4,8 @@ WORKDIR /usr/app
 
 ENV NODE_PATH /usr/app/node_modules
 
-RUN npm i install shelljs --save
+RUN npm install shelljs
+RUN npm install react-google-login
 
 COPY package.json ./
 

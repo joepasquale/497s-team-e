@@ -24,6 +24,17 @@ services:
         depends_on: 
             - mongogroups
 
+    googlecal:
+        build: ./googleCal
+        # Naming a container gives it that hostname as well. So hostname for this container is "googleCal"
+        container_name: googleCal
+        restart: always
+        environment:
+            - APP_NAME=MyFlaskApp
+        expose:
+            - 8383
+        # HOST_PORT:CONTAINER_PORT
+         
     events:
         build: ./events
         # Naming a container gives it that hostname as well. So hostname for this container is "events"

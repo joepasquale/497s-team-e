@@ -4,6 +4,7 @@ import {Form, Col, Card} from 'react-bootstrap';
 import axios from 'axios';
 import Groups from './Groups';
 import Events from './Events';
+import Cal from './GoogleCal'
 
 import MenuBar from '../Components/MenuBar';
 export class HomePage extends React.Component {
@@ -19,6 +20,7 @@ export class HomePage extends React.Component {
           groupMembers: '',
           showGroups: '',
           showEvents: '',
+          showCal: ''
         }
       : {};
     this.state = {
@@ -54,13 +56,16 @@ export class HomePage extends React.Component {
   };
 
   handleGroupButton = () => {
-    this.setState({showGroups: <Groups />, showEvents: ''});
+    this.setState({showGroups: <Groups />, showEvents: '', showCal: ''});
   };
   handleEventButton = () => {
-    this.setState({showEvents: <Events />, showGroups: ''});
+    this.setState({showEvents: <Events />, showGroups: '', showCal: ''});
+  };
+  handleCalButton = () => {
+    this.setState({showCal: <Cal />, showGroups: '', showEvents: ''});
   };
   render() {
-    const {response, showGroups, showEvents} = this.state;
+    const {response, showGroups, showEvents, showCal} = this.state;
 
     const yelp = (
       <Card>
@@ -110,9 +115,13 @@ export class HomePage extends React.Component {
             <Button variant="success" onClick={e => this.handleEventButton(e)}>
               Events
             </Button>
+            <Button variant="success" onClick={e => this.handleCalButton(e)}>
+              GCal
+            </Button>
           </ButtonGroup>
           {showGroups}
           {showEvents}
+          {showCal}
         </Card>
       </div>
     );
