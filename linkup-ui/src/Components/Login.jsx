@@ -18,7 +18,6 @@ function Login() {
     const instance = axios.create({ timeout: 10000 });
     instance.defaults.headers.common['Authorization'] = res.getAuthResponse();
     instance.defaults.headers.common['tokenId'] = res.getAuthResponse().id_token;
-    instance.defaults.headers.common['Access Token'] = res.accessToken;
     instance
       .post('http://' + window.location.hostname + '/gcal/auth', res)
       .then(res => {
