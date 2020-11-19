@@ -66,7 +66,7 @@ export class HomePage extends React.Component {
               <div>
                 <br />
               </div>
-              <Logout />
+              {/*<Logout />*/}
             </Col>
           </Form>
         </Card.Body>

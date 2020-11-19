@@ -33,7 +33,7 @@ function Login() {
   const onFailure = (res) => {
     console.log('Login failed: res:', res);
     alert(
-      `Failed to login. Please ping this to repo owner twitter.com/sivanesh_fiz`
+      `Failed to login.`
     );
   };
 
@@ -41,7 +41,7 @@ function Login() {
     <div>
       <GoogleLogin
         clientId={clientId}
-        buttonText="Login"
+        buttonText="Export to Calendar"
         onSuccess={onSuccess}
         onFailure={onFailure}
         scope='https://www.googleapis.com/auth/calendar.events'
