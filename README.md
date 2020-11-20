@@ -13,6 +13,7 @@ Click on any service to view it's documentation
 [Linkup-UI](linkup-ui/README.md) - TJ Goldblatt  
 [mongoGroups](mongoGroups/README.md) & [mongoEvents](mongoEvents/README.md) - Ron Arbo
 [Google Calendar](googleCal/README.md) - Joe Pasquale
+[Scheduler](Scheduler/README.md) - Nick Thurai
 
 <br>
 
